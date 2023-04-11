@@ -1,0 +1,114 @@
+=======================
+설정
+=======================
+
+physnet110 = ens1f1 (UPF01 SVC1)
+physnet120 = ens1f0 (UPF01 SVC3+SRP)
+physnet130 = ens4f1 (UPF02 SVC1)
+physnet140 = ens4f0 (UPV02 SVC3+SRP)
+physnet150 = ens2f1 (UPF01 SVC2)
+physnet160 = ens2f0 (UPF01 SVC4+SRP)
+physnet170 = ens5f1 (UPF02 SVC2)
+physnet180 = ens5f0 (UPF02 SVC4+SRP)
+
+VF Number=2
+MTU=9000
+
+=======================
+
+
+*) sriov 설치
+yum install -y openstack-neutron-sriov-nic-agent
+
+*) 처음 sriov 설치시 아래 3개 명령어 실행
+systemctl daemon-reload
+systemctl enable neutron-sriov-nic-agent
+systemctl start neutron-sriov-nic-agent
+
+
+
+1. 기존vf 정보 초기화
+
+ip link show | grep vf
+echo 0 > /sys/class/net/ens1f1/device/sriov_numvfs
+echo 0 > /sys/class/net/ens1f0/device/sriov_numvfs
+echo 0 > /sys/class/net/ens4f1/device/sriov_numvfs
+echo 0 > /sys/class/net/ens4f0/device/sriov_numvfs
+echo 0 > /sys/class/net/ens2f1/device/sriov_numvfs
+echo 0 > /sys/class/net/ens2f0/device/sriov_numvfs
+echo 0 > /sys/class/net/ens5f1/device/sriov_numvfs
+echo 0 > /sys/class/net/ens5f0/device/sriov_numvfs
+
+
+2. rc.local 설정
+
+vi /etc/rc.local
+
+echo 2 > /sys/class/net/ens1f1/device/sriov_numvfs
+ip link set ens1f1 up
+echo 2 > /sys/class/net/ens1f0/device/sriov_numvfs
+ip link set ens1f0 up
+echo 2 > /sys/class/net/ens4f1/device/sriov_numvfs
+ip link set ens4f1 up
+echo 2 > /sys/class/net/ens4f0/device/sriov_numvfs
+ip link set ens4f0 up
+echo 2 > /sys/class/net/ens2f1/device/sriov_numvfs
+ip link set ens2f1 up
+echo 2 > /sys/class/net/ens2f0/device/sriov_numvfs
+ip link set ens2f0 up
+echo 2 > /sys/class/net/ens5f1/device/sriov_numvfs
+ip link set ens5f1 up
+echo 2 > /sys/class/net/ens5f0/device/sriov_numvfs
+ip link set ens5f0 up
+
+
+systemctl restart neutron-sriov-nic-agent.service
+
+실행
+
+/etc/rc.local
+
+
+vi /etc/neutron/plugins/ml2/sriov_agent.ini 
+physical_device_mappings =physnet110:ens1f1, physnet120:ens1f0, physnet130:ens4f1, physnet140:ens4f0, physnet150:ens2f1, physnet160:ens2f0, physnet170:ens5f1,physnet180:ens5f0
+
+vi /etc/neutron/plugins/ml2/linuxbridge_agent.ini 
+physical_interface_mappings =physnet_mgmt:eno4,physnet_core:eno2
+
+
+vi /etc/nova/nova.conf
+passthrough_whitelist = [{"devname": "ens1f1", "physical_network": "physnet110"}, {"devname": "ens1f0", "physical_network": "physnet120"}, {"devname": "ens4f1", "physical_network": "physnet130"},  {"devname": "ens4f0", "physical_network": "physnet140"},{"devname": "ens2f1", "physical_network": "physnet150"},  {"devname": "ens2f0", "physical_network": "physnet160"}, {"devname": "ens5f1", "physical_network": "physnet170"},  {"devname": "ens5f0", "physical_network": "physnet180"}]
+
+OSC에서 ml2.conf vlan 설정 확인
+
+cat /etc/neutron/plugins/ml2/ml2_conf.ini | grep mechanism_drivers
+mechanism_drivers =linuxbridge, sriovnicswitch
+
+cat /etc/neutron/plugins/ml2/ml2_conf.ini | grep network_vlan_ranges
+network_vlan_ranges =physnet10:100:399,physnet20:100:399,physnet30:100:399,physnet40:100:399,physnet130:100:399,physnet140:100:399,physnet170:100:399,physnet180:100:399,physnet110:100:399,physnet120:100:399,physnet150:100:399,physnet160:100:399,physnet_mgmt2:100:399
+
+
+
+
+systemctl restart network
+
+
+[OSC] 
+systemctl restart neutron-server.service
+systemctl status neutron-server.service
+
+
+
+[NOVA]
+systemctl restart neutron-linuxbridge-agent.service
+systemctl restart neutron-sriov-nic-agent.service
+systemctl restart openstack-nova-compute
+
+
+
+
+
+
+
+
+

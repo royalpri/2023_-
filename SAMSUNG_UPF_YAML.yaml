@@ -1,0 +1,74 @@
+#cloud-config
+bootcmd:
+ - /bin/mkdir -p /mnt/conf
+write_files:
+#VNF configuration
+ - content: |
+      NE_TYPE=UPF
+      USE_EHIFE=YES
+      USE_CSA=NO
+      INTF_TYPE=SRIOV
+      INTERNAL_INTF_TYPE=SRIOV
+      INTERNAL_IP_VERSION=IPv4
+      INTERNAL_SUBNET=192.168.2.0/24
+      INTERNAL_MTU=1740
+      MANAGEMENT_INTF_TYPE=SRIOV
+      MANAGEMENT_IP_VERSION=IPv4
+      MANAGEMENT_SUBNET=172.21.45.0/24
+      MANAGEMENT_MTU=1500
+      VLAN_TAGGING=YES
+      NUM_IPC_PORT=2
+      NUM_INT_PORT=2
+      IPC_FAILBACK=NO
+      RECONFIG=NO
+      RSH_MODE=SSH
+   path: /mnt/conf/vnf-conf
+   permissions: '0644'
+
+#VNFC configuration
+#NMC
+ - content: |
+      MST_NTYPE=NMC
+      APTMPSIZE=7200
+      USE_MAPDISK=2
+      USE_CMSDISK=YES
+      MNTDIR2=apdata
+      USE_GATEWAY=YES
+      VNFC_IMAGE=NO
+      NUM_PPC_EXT_PORT=2
+      NUM_NMC_EXT_PORT=2
+      PPC_INTF_RDNCY=1
+      NUM_DPI=2
+      route0dstnet=172.29.151.0
+      route0netmask=255.255.255.0
+      route0iface=bond1
+      route0gateway=172.21.45.1
+      route1dstnet=172.21.45.0
+      route1netmask=255.255.255.0
+      route1iface=bond1
+      route1gateway=172.21.45.1      
+   path: /mnt/conf/nmc-conf
+   permissions: '0644'
+#PPC
+ - content: |
+      EXTERNAL_INTF_TYPE=SRIOV
+      CORE_MASK=0xFFFF
+      NUM_EXT_PORT=2
+      NUM_PD=2
+      NUM_PP=6
+      NUM_DPI=2
+      NUM_REGEX=0
+      USE_HUGEPAGE=NO
+      S_VLAN=0
+      B_VLAN=0
+      APTMPSIZE=3600
+      TYPE=LEDA
+      NUM_PT=1
+      SHARED_PD_PT=NO
+   path: /mnt/conf/ppc-conf
+   permissions: '0644'
+#PIC
+ - content: |
+      APTMPSIZE=2400
+   path: /mnt/conf/pic-conf
+   permissions: '0644'

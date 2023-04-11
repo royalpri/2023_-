@@ -1,0 +1,2957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vnfd>
+  <vnfd_id>EDU_CISCO_UPF01</vnfd_id>
+  <name>EDU_CISCO_UPF</name>
+  <provider>CISCO</provider>
+  <descriptor_version>1.0.0</descriptor_version>
+  <version>1.0.0</version>
+  <vendor_configuration>
+    <vnf_driver>driver_vnf_sol002_rest_1_0_0.jar</vnf_driver>
+  </vendor_configuration>
+  <vm_images>
+    <vm_image>
+      <id>em-6_9_0_7775.qcow2</id>
+      <name>em-6_9_0_7775.qcow2</name>
+      <version>1.0.0</version>
+      <filename>em-6_9_0_7775.qcow2</filename>
+      <checksum>20101d706bce22ede33c1d0058ae309c</checksum>
+      <size>1021378560</size>
+    </vm_image>
+    <vm_image>
+      <id>qvpc-si-21.16.c2.qcow2</id>
+      <name>qvpc-si-21.16.c2.qcow2</name>
+      <version>1.0.0</version>
+      <filename>qvpc-si-21.16.c2.qcow2</filename>
+      <checksum>8d6793fc1ccb036f15c7482b7daaa755</checksum>
+      <size>187301888</size>
+    </vm_image>
+  </vm_images>
+  <sw_packages/>
+  <vnfcs>
+    <vnfc>
+      <vnfc_id>EM_A</vnfc_id>
+      <name>#vnf.name + '-' + #vnfc.type + '-' + @java.lang.String@format('%02d', #vduNum)</name>
+      <type>EM_A</type>
+      <flavor_name>cUPFEM_A-FLAVOR_EDU</flavor_name>
+      <ha_type>
+        <active_count>1</active_count>
+        <standby_count>0</standby_count>
+      </ha_type>
+      <vm_image_id_ref>em-6_9_0_7775.qcow2</vm_image_id_ref>
+      <sw_package_id_ref></sw_package_id_ref>
+      <cpu>
+        <num_vpu>2</num_vpu>
+      </cpu>
+      <memory>
+        <total_memory_gb>4</total_memory_gb>
+      </memory>
+      <storages>
+        <local_storages>
+          <storage>
+            <storage_id>DISK-001</storage_id>
+            <name>#vnfc.vnfciName + '-' + #storage.type + '-' + @java.lang.String@format('%02d', #volumeNum)</name>
+            <size_gb>40</size_gb>
+            <properties>
+              <property>
+                <id>type</id>
+                <value>vm_image</value>
+              </property>
+            </properties>
+          </storage>
+        </local_storages>
+        <external_storages></external_storages>
+      </storages>
+      <network_interfaces>
+        <network_interface>
+          <id>vl_core_orch</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <ivl_id_ref>vnfoam_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.1.131.101</value>
+            </property>
+            <property>
+              <id>allowed_address_pair</id>
+              <value>[{ "ip_address" : "128.1.131.100", "unit_numbers" : [ "0" ] }]</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl_core_mgmt</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <description>cisco_network</description>
+          <ivl_id_ref>cisco_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.6.125.101</value>
+            </property>
+          </properties>
+        </network_interface>
+      </network_interfaces>
+      <personalities>
+        <personality>
+          <path>/opt/cisco/em/config/encrypted.cfg</path>
+          <contents>key=1737d5e1bf328c7593a32b66d9eff544
+iv=9728988b2e6bac562266573b4a5d49df
+key1=====44c9cb11ccc987373121603fe6e168fb
+iv1=====51475f5887658931ba4b78550c3d92b3
+key2=====0313dd4d1f694170
+key3=====14b22f67303afdf4
+key4=====9a30ef87ec0034d0
+iv2=====66a64e89854fd536
+uname1=====ubuntu=====pwd1=====$6$mXtQ7EPQ$h3dMxHyNhErI6UDbKAA4ofif0gwb4YUkXHyE2S6NBGdWgYsh0NcnX6cP2MCLWi0QNGHMusK./47GlxWLDmJB6/
+security-admin=====$6$k4OW5YvURj9cld$YXilGf05lTkRAhL7/QszqK5DZi1aau0edeoa8TQ7T1T8MufcXaaJgKeEZsOWS1dB9d8Ol9NNH/fSBmCJBA9X20
+admin=====$6$7CpHzrEhHlvn7$NVB.5V9ICrpZOr6ToFyNeLLWLw4TpfewniwKcsye4O2jP5szT2Xm0GiputHMd8OtiZYIl3tI7M5MCIS6QpQIz/
+oper=====$6$ukvy9sqEeF.kTGWp$yUjK4ttlb2B3.6N9MqZAUwQLVtOXPYT21KgQ35ue1fFcse1bg7kgRH4VhdRXVFuF1WTXtefHYWQKSuVQ40JGG1</contents>
+        </personality>
+        <personality>
+          <path>/opt/cisco/em/config/ip.txt</path>
+          <contents>128.6.125.101;128.6.125.102;128.6.125.100</contents>
+        </personality>
+        <personality>
+          <path>/opt/cisco/em/config/proxy-params.txt</path>
+          <contents>vnfm-type:gvnfm
+vnfm-ip:128.1.0.35
+vnfm-port:9090
+vnfm-username:vnfm_id_etsi_sol002
+vnfm-password:vnfm_pwd_etsi_sol002
+vnfm-vnfd:/opt/cisco/em/config/vnfd.xml
+ha-vip:128.1.131.100/16
+ha-interface:eth0:1
+ha-gateway:128.1.131.1
+arbiter-ip:128.6.125.100/24
+ha: true
+ha-secret: d2bf22e2b1a7af8e82f0e192b4c54a10
+orch-ips: 128.6.125.101,128.6.125.102,128.6.125.100
+orch-intf: eth1
+vnfm-proxy-username:em-user
+vnfm-proxy-password:artlU@462
+debug: OFF</contents>
+        </personality>
+        <personality>
+          <path>/opt/cisco/em/config/vnfd.txt</path>
+          <contents>base64 encoding</contents>
+        </personality>
+      </personalities>
+      <extra_specs>
+        <extra_spec>
+          <key>hw:cpu_sockets</key>
+          <value>2</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_threads</key>
+          <value>1</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_policy</key>
+          <value>dedicated</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_thread_policy</key>
+          <value>isolate</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:numa_nodes</key>
+          <value>2</value>
+        </extra_spec>		
+        <extra_spec>
+          <key>hw:mem_page_size</key>
+          <value>1GB</value>
+        </extra_spec>
+      </extra_specs>
+      <metadatas>
+        <metadata>
+          <key>VNF_PORT</key>
+          <value>9090</value>
+        </metadata>
+        <metadata>
+          <key>VNFM_API_TOKEN_ENDPOINT</key>
+          <value>'http://' + #vnfm.ip + ':9090/v1/tokens'</value>
+        </metadata>
+        <metadata>
+          <key>VNFM_API_CATALOG_URI</key>
+          <value>'http://' + #vnfm.ip + ':9090/v1/catalogues'</value>
+        </metadata>
+      </metadatas>
+      <properties>
+        <property>
+          <id>config_drive</id>
+          <value>true</value>
+        </property>
+        <property>
+          <id>user_data</id>
+          <value>#cloud-config
+manage_etc_hosts: true
+hostname: vnf-vpc-em-1
+local-hostname: vnf-vpc-em-1
+chpasswd: { expire: False }
+network:
+  config: disabled
+ssh_pwauth: True
+password: $6$K3wT5ZFFi$thCOHNTlIUT/XDyaxh8cGdUBd4z83520rFbGhhasq7fvlWhVAIfb8zD.UH9giKY1EKywCWX5F/MWaJirtn4Ds1
+
+write_files:
+-   content: |
+      auto lo
+      iface lo inet loopback
+
+      auto eth0
+      iface eth0 inet static
+       address 128.1.131.101
+       netmask 255.255.0.0
+       mtu 1500
+
+      auto eth1
+      iface eth1 inet static
+       address 128.6.125.101
+       netmask 255.255.255.0
+       gateway 128.6.125.1
+       mtu 1500
+
+    path: /etc/network/interfaces
+-   content: |
+      vrrp_instance VI_1 {
+        state BACKUP
+        interface eth1
+        virtual_router_id 100
+        priority 150
+        advert_int 1
+        authentication {
+            auth_type PASS
+            auth_pass 2cb7fb13d8772ebb4422df2b6bbe174a
+        }
+        virtual_ipaddress {
+            128.6.125.100
+        }
+        notify /opt/cisco/em/keep-alived/vrrp_manager.sh
+      }
+    path: /etc/keepalived/keepalived.conf
+bootcmd:
+ - dpkg --purge ntp
+runcmd:
+ - [ ls ]
+ - base64 --decode /opt/cisco/em/config/vnfd.txt > /opt/cisco/em/config/vnfd.xml
+ - [ systemctl, start, zk.service ]
+ - [ systemctl, enable, zk.service ]
+ - [ systemctl, start, ncs.service ]
+ - [ systemctl, enable, ncs.service ]
+ - [ systemctl, start, keepalived.service ]
+ - [ systemctl, enable, keepalived.service ]</value>
+        </property>
+      </properties>
+      <flavor_min_max>
+        <min>1</min>
+        <max>1</max>
+      </flavor_min_max>
+    </vnfc>
+    <vnfc>
+      <vnfc_id>EM_C</vnfc_id>
+      <name>#vnf.name + '-' + #vnfc.type + '-' + @java.lang.String@format('%02d', #vduNum)</name>
+      <type>EM_C</type>
+      <flavor_name>cUPFEM_C-FLAVOR_EDU</flavor_name>
+      <ha_type>
+        <active_count>1</active_count>
+        <standby_count>0</standby_count>
+      </ha_type>
+      <vm_image_id_ref>em-6_9_0_7775.qcow2</vm_image_id_ref>
+      <sw_package_id_ref></sw_package_id_ref>
+      <cpu>
+        <num_vpu>2</num_vpu>
+      </cpu>
+      <memory>
+        <total_memory_gb>4</total_memory_gb>
+      </memory>
+      <storages>
+        <local_storages>
+          <storage>
+            <storage_id>DISK-001</storage_id>
+            <name>#vnfc.vnfciName + '-' + #storage.type + '-' + @java.lang.String@format('%02d', #volumeNum)</name>
+            <size_gb>40</size_gb>
+            <properties>
+              <property>
+                <id>type</id>
+                <value>vm_image</value>
+              </property>
+            </properties>
+          </storage>
+        </local_storages>
+        <external_storages></external_storages>
+      </storages>
+      <network_interfaces>
+        <network_interface>
+          <id>vl_core_orch</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <ivl_id_ref>vnfoam_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.1.131.102</value>
+            </property>
+            <property>
+              <id>allowed_address_pair</id>
+              <value>[{ "ip_address" : "128.1.131.100", "unit_numbers" : [ "0" ] }]</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl_core_mgmt</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <description>cisco_network</description>
+          <ivl_id_ref>cisco_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.6.125.102</value>
+            </property>
+          </properties>
+        </network_interface>
+      </network_interfaces>
+      <personalities>
+        <personality>
+          <path>/opt/cisco/em/config/encrypted.cfg</path>
+          <contents>key=1737d5e1bf328c7593a32b66d9eff544
+iv=9728988b2e6bac562266573b4a5d49df
+key1=====44c9cb11ccc987373121603fe6e168fb
+iv1=====51475f5887658931ba4b78550c3d92b3
+key2=====0313dd4d1f694170
+key3=====14b22f67303afdf4
+key4=====9a30ef87ec0034d0
+iv2=====66a64e89854fd536
+uname1=====ubuntu=====pwd1=====$6$mXtQ7EPQ$h3dMxHyNhErI6UDbKAA4ofif0gwb4YUkXHyE2S6NBGdWgYsh0NcnX6cP2MCLWi0QNGHMusK./47GlxWLDmJB6/
+security-admin=====$6$k4OW5YvURj9cld$YXilGf05lTkRAhL7/QszqK5DZi1aau0edeoa8TQ7T1T8MufcXaaJgKeEZsOWS1dB9d8Ol9NNH/fSBmCJBA9X20
+admin=====$6$7CpHzrEhHlvn7$NVB.5V9ICrpZOr6ToFyNeLLWLw4TpfewniwKcsye4O2jP5szT2Xm0GiputHMd8OtiZYIl3tI7M5MCIS6QpQIz/
+oper=====$6$ukvy9sqEeF.kTGWp$yUjK4ttlb2B3.6N9MqZAUwQLVtOXPYT21KgQ35ue1fFcse1bg7kgRH4VhdRXVFuF1WTXtefHYWQKSuVQ40JGG1</contents>
+        </personality>
+        <personality>
+          <path>/opt/cisco/em/config/ip.txt</path>
+          <contents>128.6.125.101;128.6.125.102;128.6.125.100</contents>
+        </personality>
+        <personality>
+          <path>/opt/cisco/em/config/proxy-params.txt</path>
+          <contents>vnfm-type:gvnfm
+vnfm-ip:128.1.0.35
+vnfm-port:9090
+vnfm-username:vnfm_id_etsi_sol002
+vnfm-password:vnfm_pwd_etsi_sol002
+vnfm-vnfd:/opt/cisco/em/config/vnfd.xml
+ha-vip:128.1.131.100/16
+ha-interface:eth0:1
+ha-gateway:128.1.131.1
+arbiter-ip:128.6.125.100/24
+ha: true
+ha-secret: d2bf22e2b1a7af8e82f0e192b4c54a10
+orch-ips: 128.6.125.101,128.6.125.102,128.6.125.100
+orch-intf: eth1
+vnfm-proxy-username:em-user
+vnfm-proxy-password:artlU@462
+debug: OFF</contents>
+        </personality>
+        <personality>
+          <path>/opt/cisco/em/config/vnfd.txt</path>
+          <contents>base64 encoding</contents>
+        </personality>
+      </personalities>
+      <extra_specs>
+        <extra_spec>
+          <key>hw:cpu_sockets</key>
+          <value>2</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_threads</key>
+          <value>1</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_policy</key>
+          <value>dedicated</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_thread_policy</key>
+          <value>isolate</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:numa_nodes</key>
+          <value>2</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:mem_page_size</key>
+          <value>1GB</value>
+        </extra_spec>
+      </extra_specs>
+      <metadatas>
+        <metadata>
+          <key>VNF_PORT</key>
+          <value>9090</value>
+        </metadata>
+        <metadata>
+          <key>VNFM_API_TOKEN_ENDPOINT</key>
+          <value>'http://' + #vnfm.ip + ':9090/v1/tokens'</value>
+        </metadata>
+        <metadata>
+          <key>VNFM_API_CATALOG_URI</key>
+          <value>'http://' + #vnfm.ip + ':9090/v1/catalogues'</value>
+        </metadata>
+      </metadatas>
+      <properties>
+        <property>
+          <id>config_drive</id>
+          <value>true</value>
+        </property>
+        <property>
+          <id>user_data</id>
+          <value>#cloud-config
+manage_etc_hosts: true
+hostname: vnf-vpc-em-2
+local-hostname: vnf-vpc-em-2
+chpasswd: { expire: False }
+network:
+  config: disabled
+ssh_pwauth: True
+password: $6$K3wT5ZFFi$thCOHNTlIUT/XDyaxh8cGdUBd4z83520rFbGhhasq7fvlWhVAIfb8zD.UH9giKY1EKywCWX5F/MWaJirtn4Ds1
+
+write_files:
+-   content: |
+      auto lo
+      iface lo inet loopback
+
+      auto eth0
+      iface eth0 inet static
+       address 128.1.131.102
+       netmask 255.255.0.0
+       mtu 1500
+
+      auto eth1
+      iface eth1 inet static
+       address 128.6.125.102
+       netmask 255.255.255.0
+       gateway 128.6.125.1
+       mtu 1500
+
+    path: /etc/network/interfaces
+-   content: |
+      vrrp_instance VI_1 {
+        state BACKUP
+        interface eth1
+        virtual_router_id 100
+        priority 150
+        advert_int 1
+        authentication {
+            auth_type PASS
+            auth_pass 2cb7fb13d8772ebb4422df2b6bbe174a
+        }
+        virtual_ipaddress {
+            128.6.125.100
+        }
+        notify /opt/cisco/em/keep-alived/vrrp_manager.sh
+      }
+    path: /etc/keepalived/keepalived.conf
+bootcmd:
+ - dpkg --purge ntp
+runcmd:
+ - [ ls ]
+ - base64 --decode /opt/cisco/em/config/vnfd.txt > /opt/cisco/em/config/vnfd.xml
+ - [ systemctl, start, zk.service ]
+ - [ systemctl, enable, zk.service ]
+ - [ systemctl, start, ncs.service ]
+ - [ systemctl, enable, ncs.service ]
+ - [ systemctl, start, keepalived.service ]
+ - [ systemctl, enable, keepalived.service ]</value>
+        </property>
+      </properties>
+      <flavor_min_max>
+        <min>1</min>
+        <max>1</max>
+      </flavor_min_max>
+    </vnfc>
+    <vnfc>
+      <vnfc_id>UPF_A</vnfc_id>
+      <name>#vnf.name + '-' + #vnfc.type + '-' + @java.lang.String@format('%02d', #vduNum)</name>
+      <type>UPF_A</type>
+      <flavor_name>cUPFA-FLAVOR_EDU</flavor_name>
+      <high_availability>ActiveActive</high_availability>
+      <ha_type>
+        <active_count>1</active_count>
+        <standby_count>1</standby_count>
+      </ha_type>
+      <vm_image_id_ref>qvpc-si-21.16.c2.qcow2</vm_image_id_ref>
+      <sw_package_id_ref></sw_package_id_ref>
+      <cpu>
+        <num_vpu>10</num_vpu>
+      </cpu>
+      <memory>
+        <total_memory_gb>50</total_memory_gb>
+      </memory>
+      <storages>
+        <local_storages>
+          <storage>
+            <storage_id>DISK-001</storage_id>
+            <name>#vnfc.vnfciName + '-' + #storage.type + '-' + @java.lang.String@format('%02d', #volumeNum)</name>
+            <size_gb>6</size_gb>
+            <properties>
+              <property>
+                <id>type</id>
+                <value>vm_image</value>
+              </property>
+            </properties>
+          </storage>
+        </local_storages>
+        <external_storages>
+          <storage>
+            <storage_id>DISK-002</storage_id>
+            <name>#vnfc.vnfciName + '-' + #storage.type + '-' + @java.lang.String@format('%02d', #volumeNum)</name>
+            <size_gb>100</size_gb>
+            <properties>
+              <property>
+                <id>type</id>
+                <value>ephemeral</value>
+              </property>
+              <property>
+                <id>device</id>
+                <value>/dev/hdb</value>
+              </property>
+            </properties>
+          </storage>
+        </external_storages>
+      </storages>
+      <network_interfaces>
+        <network_interface>
+          <id>vl_core_orch</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <description>vnfoam_network</description>
+          <ivl_id_ref>vnfoam_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.1.1.211</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl_core_mgmt</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <description>cisco_network</description>
+          <ivl_id_ref>cisco_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.6.125.11</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_1</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_1</description>
+          <ivl_id_ref>upf01_ext_svc1</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.146.17</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_2</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_2</description>
+          <ivl_id_ref>upf01_ext_svc2</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.146.33</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_3</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_3</description>
+          <ivl_id_ref>upf01_ext_svc3</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.146.49</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_4</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_4</description>
+          <ivl_id_ref>upf01_ext_svc4</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.146.65</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-srp_1</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-srp_1</description>
+          <ivl_id_ref>upf01_srp1</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.146.81</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-srp_2</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-srp_2</description>
+          <ivl_id_ref>upf01_srp2</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.146.89</value>
+            </property>
+          </properties>
+        </network_interface>
+      </network_interfaces>
+      <personalities>
+        <personality>
+          <path>staros_param.cfg</path>
+          <contents>IFTASK_SERVICE_TYPE=4
+FORWARDER_TYPE=vpp
+vpp_cpu_MAIN=1
+VPP_CPU_WORKER_CNT=8
+VPP_DPDK_BUFFERS=256000
+VPP_DPDK_RX_QUEUES=8
+VPP_DPDK_TX_QUEUES=9
+VPP_DPDK_RX_DESCS=4096
+VPP_DPDK_TX_DESCS=1024
+MGMT_INTERFACE=TYPE:virtio_net-1
+VNFM_INTERFACE=TYPE:virtio_net-2
+SERVICE1_INTERFACE=TYPE:i40evf-1
+SERVICE2_INTERFACE=TYPE:i40evf-2
+SERVICE3_INTERFACE=TYPE:i40evf-3
+SERVICE4_INTERFACE=TYPE:i40evf-4
+SERVICE5_INTERFACE=TYPE:i40evf-5
+SERVICE6_INTERFACE=TYPE:i40evf-6
+VNFM_IPV4_ENABLE=true
+VNFM_IPV4_DHCP_ENABLE=false
+VNFM_IPV4_ADDRESS=128.6.125.11
+VNFM_IPV4_NETMASK=255.255.255.0
+VNFM_IPV4_GATEWAY=128.6.125.1</contents>
+        </personality>
+        <personality>
+          <path>staros_config.txt</path>
+          <contents>chassis key value Cisco.123
+config
+    cli hidden
+    tech-support test-commands password boxer
+    cli test-commands password boxer
+    system hostname TEST_UPF01_CS01
+    ssh key-gen wait-time 0
+    context local
+        administrator admin password Cisco.123 ftp
+        administrator emuser password Cisco.123 ftp
+            interface LOCAL1
+                ip address 128.1.1.211 255.255.0.0
+            #exit
+        ip route 0.0.0.0 0.0.0.0 128.1.1.252 LOCAL1
+        ip domain-lookup
+        ip domain-name bxblab.com
+        ssh generate key
+        server sshd
+            subsystem sftp
+        #exit
+        server confd
+          confd_user emuser
+        #exit
+        server telnetd
+          server ftpd
+    #exit
+    port ethernet 1/1
+        bind interface LOCAL1 local
+        no shutdown
+    #exit
+    snmp community public read-only
+end</contents>
+        </personality>
+        <personality>
+          <path>user_key.pub</path>
+          <contents>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2v4dV/Qf7ZmPuTuliodfSzo7xC0zPUO4yT1ZtwEVUc+Ae9UENaWPbxQ5wLIuFXl/+FO9bl3JLi/tyhcrZhjaNUejzmNaDF2Y7+yINL2k2cU9SZ6LrYAzJ4mxY1JSmWe7bLQMr4JBgbcLlTa7jPtVd5J+OU+uXXvS/zow7Mcv96O+zOzvB+LyWMoDIArBM6juE1NUyHvLPiJo8DZtMghnzaP6zePGH4IB1Qq5vv1VpkVFLh4V9iHCnQsxmxSoHJdq4AnYLtFutIw6vV6Ip+JspssHB4MGidlvzPvxCApbZP6A/XjjWvI4Mazu0LAxNwTFvD70nKW8LLNM6aEimOcsz root@localhost</contents>
+        </personality>
+        <personality>
+          <path>user_key</path>
+          <contents>-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEAtr+HVf0H+2Zj7k7pYqHX0s6O8QtMz1DuMk9WbcBFVHPgHvVB
+DWlj28UOcCyLhV5f/hTvW5dyS4v7coXK2YY2jVHo85jWgxdmO/siDS9pNnFPUmei
+62AMyeJsWNSUplnu2y0DK+CQYG3C5U2u4z7VXeSfjlPrl170v86MOzHL/ejvszs7
+wfi8ljKAyAKwTOo7hNTVMh7yz4iaPA2bTIIZ82j+s3jxh+CAdUKub79VaZFRS4eF
+fYhwp0LMZsUqByXauAJ2C7RbrSMOr1eiKfibKbLBweDBonZb8z78QgKW2T+gP144
+1ryODGs7tCwMTcExbw+9JylvCyzTOmhIpjnLMwIDAQABAoIBAQCFNUkWIdHeq7zt
+6bFvRt+F9zD0fTMo7yohm/k5GOywaaKVjlozx32VpacnlyDAP5GjKGltDxCuBsRr
+ryC0vIMpMeqnHeJHPhg0YpNonwWHPMMAIzD7d1D7G8O0YIhWVbmpI79rDU7QK1Hk
+SWLQnG10+oBfg8Z32Sx4X7uSLnMuiY95Xx1oUApJTOhldesVVWYdxvzzsRNoB/ew
+DUhoEPcwN8LkdIxAvMJ1wG1s9lIOJw0KJx/05YnhkLS7pU475I6XQR0FsR7RcHUH
+ZHm6YHCqqcpYqOxAudMb8YYEA1Se2DXDltfjCisPUHx27oFTjjR8cCQzXojzW5v2
+BEDhXznZAoGBAOjQ0iWoltsPJpmIF/CHWBHQNj6eheipHR5L6Z914Pn/vDCxvbCb
+Mj2P+DOuXlLHdgntdM2+l52w32qvPQoj/23d3G6kuTYOW0RfIeppnAYUCOU0kxnR
+oXafbQvIFfiwBWomcRHkydHjPvPsqhOMT42IeCa6rBfCNthOPjBeJUTdAoGBAMjy
+VYAv3wpL1GGiXnddxvY0oIC1Zs9mXvedsa0LbFwWpGFDR3cmU4oYvKp+6JRjLSpv
+Bb5HOyBcSNfEKDeLuIRV+m1rsjRI1/i+XrqSLCHfgmdmDaY4fmdv+OuTSp1o7Jb6
+BLJTStRVDdfQR8csvgf4KnzZL4MOnDNoRoC//YdPAoGAFzRY/a/j+Ul1S3ApEqwq
+tvvNrEgYiKvyXwap7l7NYZ1/oErW4TdWtpQW5O/ILu/6b9re/XK1od3zJqr4pn4Y
+A1dNlSmN3DlqF1J0Cu0jw+dTS6UF1Fj0guI4+CelKPhCUeYq9uGay/SeXamE+hXO
+CAlGEHYimOuek8iYojF//XECgYEAsv1ou23otjslSnJewuR9PQFTllH+6e692MJW
+aVUriDuC4EAVgERbVT8DjrrMYKCWsp2B+CNqv0B0gfzv9co26WnMT3sGmRvphF/N
+8VISjXmRpph4v/7CWVCb4PqqE9xKIZFCbbVTih7Y3ctgpEFuY5rh/aNXdt2ktQXF
+Bxn8snECgYEAnGVbCpQOHKpxHKJbi9lMOGKYXK6CkMOz28HnhoR1VB/tp/4VKYSW
+3PIw6jg8uUtseXogNyccdUkXOtqqIpW/EO0yoKYceJJy8LBFtRQ/QV7LLJDEuwll
+dy08cyw8I4CYt0zK2/UUfBrzop6XqPH0bxQk7xuO+QgDl8KDtlwAuAY=
+-----END RSA PRIVATE KEY-----</contents>
+        </personality>
+      </personalities>
+      <extra_specs>
+        <extra_spec>
+          <key>hw:cpu_sockets</key>
+          <value>1</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_threads</key>
+          <value>1</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:mem_page_size</key>
+          <value>1GB</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_policy</key>
+          <value>dedicated</value>
+        </extra_spec>		
+        <extra_spec>
+          <key>hw:cpu_cores</key>
+          <value>10</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_thread_policy</key>
+          <value>isolate</value>
+        </extra_spec>
+      </extra_specs>
+      <properties>
+        <property>
+          <id>config_drive</id>
+          <value>true</value>
+        </property>
+      </properties>
+      <flavor_min_max>
+        <min>1</min>
+        <max>1</max>
+      </flavor_min_max>
+    </vnfc>
+    <vnfc>
+      <vnfc_id>UPF_C</vnfc_id>
+      <name>#vnf.name + '-' + #vnfc.type + '-' + @java.lang.String@format('%02d', #vduNum)</name>
+      <type>UPF_C</type>
+      <flavor_name>cUPFC-FLAVOR_EDU</flavor_name>
+      <high_availability>ActiveActive</high_availability>
+      <ha_type>
+        <active_count>1</active_count>
+        <standby_count>1</standby_count>
+      </ha_type>
+      <vm_image_id_ref>qvpc-si-21.16.c2.qcow2</vm_image_id_ref>
+      <sw_package_id_ref></sw_package_id_ref>
+      <cpu>
+        <num_vpu>10</num_vpu>
+      </cpu>
+      <memory>
+        <total_memory_gb>50</total_memory_gb>
+      </memory>
+      <storages>
+        <local_storages>
+          <storage>
+            <storage_id>DISK-001</storage_id>
+            <name>#vnfc.vnfciName + '-' + #storage.type + '-' + @java.lang.String@format('%02d', #volumeNum)</name>
+            <size_gb>6</size_gb>
+            <properties>
+              <property>
+                <id>type</id>
+                <value>vm_image</value>
+              </property>
+            </properties>
+          </storage>
+        </local_storages>
+        <external_storages>
+          <storage>
+            <storage_id>DISK-002</storage_id>
+            <name>#vnfc.vnfciName + '-' + #storage.type + '-' + @java.lang.String@format('%02d', #volumeNum)</name>
+            <size_gb>100</size_gb>
+            <properties>
+              <property>
+                <id>type</id>
+                <value>ephemeral</value>
+              </property>
+              <property>
+                <id>device</id>
+                <value>/dev/hdb</value>
+              </property>
+            </properties>
+          </storage>
+        </external_storages>
+      </storages>
+      <network_interfaces>
+        <network_interface>
+          <id>vl_core_orch</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <description>vnfoam_network</description>
+          <ivl_id_ref>vnfoam_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.1.1.213</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl_core_mgmt</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork</name>
+          <description>cisco_network</description>
+          <ivl_id_ref>cisco_network</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>128.6.125.13</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_1</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_1</description>
+          <ivl_id_ref>upf03_ext_svc1</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.147.17</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_2</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_2</description>
+          <ivl_id_ref>upf03_ext_svc2</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.147.33</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_3</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_3</description>
+          <ivl_id_ref>upf03_ext_svc3</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.147.49</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-service_4</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-service_4</description>
+          <ivl_id_ref>upf03_ext_svc4</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.147.65</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-srp_1</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-srp_1</description>
+          <ivl_id_ref>upf03_srp1</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.147.81</value>
+            </property>
+          </properties>
+        </network_interface>
+        <network_interface>
+          <id>vl-srp_2</id>
+          <name>#vnfc.vnfciName + '_' + #ivl.ivlId + '_' + #ivl.physicalNetwork + '_' + #ivl.segmentationId</name>
+          <description>vl-srp_2</description>
+          <ivl_id_ref>upf03_srp2</ivl_id_ref>
+          <properties>
+            <property>
+              <id>management</id>
+              <value>false</value>
+            </property>
+            <property>
+              <id>sriov</id>
+              <value>true</value>
+            </property>
+            <property>
+              <id>ip_policy</id>
+              <value>39.18.147.89</value>
+            </property>
+          </properties>
+        </network_interface>
+      </network_interfaces>
+      <personalities>
+        <personality>
+          <path>staros_param.cfg</path>
+          <contents>IFTASK_SERVICE_TYPE=4
+FORWARDER_TYPE=vpp
+vpp_cpu_MAIN=1
+VPP_CPU_WORKER_CNT=8
+VPP_DPDK_BUFFERS=256000
+VPP_DPDK_RX_QUEUES=8
+VPP_DPDK_TX_QUEUES=9
+VPP_DPDK_RX_DESCS=4096
+VPP_DPDK_TX_DESCS=1024
+MGMT_INTERFACE=TYPE:virtio_net-1
+VNFM_INTERFACE=TYPE:virtio_net-2
+SERVICE1_INTERFACE=TYPE:i40evf-1
+SERVICE2_INTERFACE=TYPE:i40evf-2
+SERVICE3_INTERFACE=TYPE:i40evf-3
+SERVICE4_INTERFACE=TYPE:i40evf-4
+SERVICE5_INTERFACE=TYPE:i40evf-5
+SERVICE6_INTERFACE=TYPE:i40evf-6
+VNFM_IPV4_ENABLE=true
+VNFM_IPV4_DHCP_ENABLE=false
+VNFM_IPV4_ADDRESS=128.6.125.13
+VNFM_IPV4_NETMASK=255.255.255.0
+VNFM_IPV4_GATEWAY=128.6.125.1</contents>
+        </personality>
+        <personality>
+          <path>staros_config.txt</path>
+          <contents>chassis key value Cisco.123
+config
+    cli hidden
+    tech-support test-commands password boxer
+    cli test-commands password boxer
+    system hostname TEST_UPF01_CS03
+    ssh key-gen wait-time 0
+    context local
+        administrator admin password Cisco.123 ftp
+        administrator emuser password Cisco.123 ftp
+            interface LOCAL1
+                ip address 128.1.1.213 255.255.0.0
+            #exit
+        ip route 0.0.0.0 0.0.0.0 128.1.1.252 LOCAL1
+        ip domain-lookup
+        ip domain-name bxblab.com
+        ssh generate key
+        server sshd
+            subsystem sftp
+        #exit
+        server confd
+          confd_user emuser
+        #exit
+        server telnetd
+          server ftpd
+    #exit
+    port ethernet 1/1
+        bind interface LOCAL1 local
+        no shutdown
+    #exit
+    snmp community public read-only
+end</contents>
+        </personality>
+        <personality>
+          <path>user_key.pub</path>
+          <contents>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2v4dV/Qf7ZmPuTuliodfSzo7xC0zPUO4yT1ZtwEVUc+Ae9UENaWPbxQ5wLIuFXl/+FO9bl3JLi/tyhcrZhjaNUejzmNaDF2Y7+yINL2k2cU9SZ6LrYAzJ4mxY1JSmWe7bLQMr4JBgbcLlTa7jPtVd5J+OU+uXXvS/zow7Mcv96O+zOzvB+LyWMoDIArBM6juE1NUyHvLPiJo8DZtMghnzaP6zePGH4IB1Qq5vv1VpkVFLh4V9iHCnQsxmxSoHJdq4AnYLtFutIw6vV6Ip+JspssHB4MGidlvzPvxCApbZP6A/XjjWvI4Mazu0LAxNwTFvD70nKW8LLNM6aEimOcsz root@localhost</contents>
+        </personality>
+        <personality>
+          <path>user_key</path>
+          <contents>-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEAtr+HVf0H+2Zj7k7pYqHX0s6O8QtMz1DuMk9WbcBFVHPgHvVB
+DWlj28UOcCyLhV5f/hTvW5dyS4v7coXK2YY2jVHo85jWgxdmO/siDS9pNnFPUmei
+62AMyeJsWNSUplnu2y0DK+CQYG3C5U2u4z7VXeSfjlPrl170v86MOzHL/ejvszs7
+wfi8ljKAyAKwTOo7hNTVMh7yz4iaPA2bTIIZ82j+s3jxh+CAdUKub79VaZFRS4eF
+fYhwp0LMZsUqByXauAJ2C7RbrSMOr1eiKfibKbLBweDBonZb8z78QgKW2T+gP144
+1ryODGs7tCwMTcExbw+9JylvCyzTOmhIpjnLMwIDAQABAoIBAQCFNUkWIdHeq7zt
+6bFvRt+F9zD0fTMo7yohm/k5GOywaaKVjlozx32VpacnlyDAP5GjKGltDxCuBsRr
+ryC0vIMpMeqnHeJHPhg0YpNonwWHPMMAIzD7d1D7G8O0YIhWVbmpI79rDU7QK1Hk
+SWLQnG10+oBfg8Z32Sx4X7uSLnMuiY95Xx1oUApJTOhldesVVWYdxvzzsRNoB/ew
+DUhoEPcwN8LkdIxAvMJ1wG1s9lIOJw0KJx/05YnhkLS7pU475I6XQR0FsR7RcHUH
+ZHm6YHCqqcpYqOxAudMb8YYEA1Se2DXDltfjCisPUHx27oFTjjR8cCQzXojzW5v2
+BEDhXznZAoGBAOjQ0iWoltsPJpmIF/CHWBHQNj6eheipHR5L6Z914Pn/vDCxvbCb
+Mj2P+DOuXlLHdgntdM2+l52w32qvPQoj/23d3G6kuTYOW0RfIeppnAYUCOU0kxnR
+oXafbQvIFfiwBWomcRHkydHjPvPsqhOMT42IeCa6rBfCNthOPjBeJUTdAoGBAMjy
+VYAv3wpL1GGiXnddxvY0oIC1Zs9mXvedsa0LbFwWpGFDR3cmU4oYvKp+6JRjLSpv
+Bb5HOyBcSNfEKDeLuIRV+m1rsjRI1/i+XrqSLCHfgmdmDaY4fmdv+OuTSp1o7Jb6
+BLJTStRVDdfQR8csvgf4KnzZL4MOnDNoRoC//YdPAoGAFzRY/a/j+Ul1S3ApEqwq
+tvvNrEgYiKvyXwap7l7NYZ1/oErW4TdWtpQW5O/ILu/6b9re/XK1od3zJqr4pn4Y
+A1dNlSmN3DlqF1J0Cu0jw+dTS6UF1Fj0guI4+CelKPhCUeYq9uGay/SeXamE+hXO
+CAlGEHYimOuek8iYojF//XECgYEAsv1ou23otjslSnJewuR9PQFTllH+6e692MJW
+aVUriDuC4EAVgERbVT8DjrrMYKCWsp2B+CNqv0B0gfzv9co26WnMT3sGmRvphF/N
+8VISjXmRpph4v/7CWVCb4PqqE9xKIZFCbbVTih7Y3ctgpEFuY5rh/aNXdt2ktQXF
+Bxn8snECgYEAnGVbCpQOHKpxHKJbi9lMOGKYXK6CkMOz28HnhoR1VB/tp/4VKYSW
+3PIw6jg8uUtseXogNyccdUkXOtqqIpW/EO0yoKYceJJy8LBFtRQ/QV7LLJDEuwll
+dy08cyw8I4CYt0zK2/UUfBrzop6XqPH0bxQk7xuO+QgDl8KDtlwAuAY=
+-----END RSA PRIVATE KEY-----</contents>
+        </personality>
+      </personalities>
+      <extra_specs>
+        <extra_spec>
+          <key>hw:cpu_sockets</key>
+          <value>1</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_threads</key>
+          <value>1</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:mem_page_size</key>
+          <value>1GB</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_policy</key>
+          <value>dedicated</value>
+        </extra_spec>		
+        <extra_spec>
+          <key>hw:cpu_cores</key>
+          <value>10</value>
+        </extra_spec>
+        <extra_spec>
+          <key>hw:cpu_thread_policy</key>
+          <value>isolate</value>
+        </extra_spec>
+      </extra_specs>
+      <properties>
+        <property>
+          <id>config_drive</id>
+          <value>true</value>
+        </property>
+      </properties>
+      <flavor_min_max>
+        <min>1</min>
+        <max>1</max>
+      </flavor_min_max>
+    </vnfc>
+  </vnfcs>
+  <connection_points></connection_points>
+  <internal_virtual_links>
+    <internal_virtual_link>
+      <name>cisco_network</name>
+      <description>cisco_network</description>
+      <ivl_id>cisco_network</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>FLAT</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet_core</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>128.6.125.0/24</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>128.6.125.1</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>vnfoam_network</name>
+      <description>vnfoam_network</description>
+      <ivl_id>vnfoam_network</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>FLAT</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet_mgmt</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>128.1.0.0/16</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>128.1.0.1</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service1</description>
+      <ivl_id>upf01_ext_svc1</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet110</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2001</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.146.16/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.146.30</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service2</description>
+      <ivl_id>upf01_ext_svc2</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet150</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2002</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.146.32/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.146.46</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service3</description>
+      <ivl_id>upf01_ext_svc3</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet120</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2101</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.146.48/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.146.62</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service4</description>
+      <ivl_id>upf01_ext_svc4</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet160</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2102</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.146.64/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.146.78</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-srp_1</description>
+      <ivl_id>upf01_srp1</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet120</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2131</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.146.80/29</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.146.86</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-srp_2</description>
+      <ivl_id>upf01_srp2</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet160</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2132</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.146.88/29</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.146.94</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service1</description>
+      <ivl_id>upf03_ext_svc1</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet130</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2005</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.147.16/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.147.30</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service2</description>
+      <ivl_id>upf03_ext_svc2</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet170</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2006</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.147.32/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.147.46</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service3</description>
+      <ivl_id>upf03_ext_svc3</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet140</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2105</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.147.48/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.147.62</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-service4</description>
+      <ivl_id>upf03_ext_svc4</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet180</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2106</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.147.64/28</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.147.78</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-srp_1</description>
+      <ivl_id>upf03_srp1</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet140</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2135</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.147.80/29</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.147.86</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+    <internal_virtual_link>
+      <name>#vnf.name + '_' + #ivl.ivlId</name>
+      <description>vl-srp_2</description>
+      <ivl_id>upf03_srp2</ivl_id>
+      <properties>
+        <property>
+          <id>network_type</id>
+          <value>VLAN</value>
+        </property>
+        <property>
+          <id>physical_network</id>
+          <value>physnet180</value>
+        </property>
+        <property>
+          <id>segmentation_id</id>
+          <value>2136</value>
+        </property>
+        <property>
+          <id>cidr</id>
+          <value>39.18.147.88/29</value>
+        </property>
+        <property>
+          <id>gateway_ip</id>
+          <value>39.18.147.94</value>
+        </property>
+        <property>
+          <id>ip_version</id>
+          <value>V4</value>
+        </property>
+      </properties>
+    </internal_virtual_link>
+  </internal_virtual_links>
+  <monitoring_params/>
+  <flavors>
+    <flavor>
+      <flavor_id>EDU-cUPF-FLAVOR</flavor_id>
+      <name>EDU-cUPF-FLAVOR</name>
+      <description>EDU-UPF-FLAVOR</description>
+      <vdus>
+        <vdu>
+          <vdu_id>UUID-VDU-EM_A</vdu_id>
+          <vnfc_id_ref>EM_A</vnfc_id_ref>
+          <scale_in_out>
+            <min>1</min>
+            <max>1</max>
+          </scale_in_out>
+          <affinity_or_anti_affinity_group_ids></affinity_or_anti_affinity_group_ids>
+          <local_affinity_or_anti_affinity_rules></local_affinity_or_anti_affinity_rules>
+        </vdu>
+        <vdu>
+          <vdu_id>UUID-VDU-EM_C</vdu_id>
+          <vnfc_id_ref>EM_C</vnfc_id_ref>
+          <scale_in_out>
+            <min>1</min>
+            <max>1</max>
+          </scale_in_out>
+          <affinity_or_anti_affinity_group_ids></affinity_or_anti_affinity_group_ids>
+          <local_affinity_or_anti_affinity_rules></local_affinity_or_anti_affinity_rules>
+        </vdu>
+        <vdu>
+          <vdu_id>UUID-VDU-UPF_A</vdu_id>
+          <vnfc_id_ref>UPF_A</vnfc_id_ref>
+          <scale_in_out>
+            <min>1</min>
+            <max>1</max>
+          </scale_in_out>
+          <affinity_or_anti_affinity_group_ids></affinity_or_anti_affinity_group_ids>
+          <local_affinity_or_anti_affinity_rules></local_affinity_or_anti_affinity_rules>
+        </vdu>
+        <vdu>
+          <vdu_id>UUID-VDU-UPF_C</vdu_id>
+          <vnfc_id_ref>UPF_C</vnfc_id_ref>
+          <scale_in_out>
+            <min>1</min>
+            <max>1</max>
+          </scale_in_out>
+          <affinity_or_anti_affinity_group_ids></affinity_or_anti_affinity_group_ids>
+          <local_affinity_or_anti_affinity_rules></local_affinity_or_anti_affinity_rules>
+        </vdu>
+      </vdus>
+      <default_instantiation_level_id>0</default_instantiation_level_id>
+      <instantiation_levels>
+        <instantiation_level>
+          <level_id>0</level_id>
+          <description>Default instantiation level</description>
+          <vdu_levels>
+            <vdu_level>
+              <vdu_id>UUID-VDU-EM_A</vdu_id>
+              <number_of_instances>1</number_of_instances>
+            </vdu_level>
+            <vdu_level>
+              <vdu_id>UUID-VDU-EM_C</vdu_id>
+              <number_of_instances>1</number_of_instances>
+            </vdu_level>
+            <vdu_level>
+              <vdu_id>UUID-VDU-UPF_A</vdu_id>
+              <number_of_instances>1</number_of_instances>
+            </vdu_level>
+            <vdu_level>
+              <vdu_id>UUID-VDU-UPF_C</vdu_id>
+              <number_of_instances>1</number_of_instances>
+            </vdu_level>
+          </vdu_levels>
+          <scale_infos>
+            <scale_info>
+              <aspect_id>SA_UP</aspect_id>
+              <scale_level>0</scale_level>
+            </scale_info>
+          </scale_infos>
+        </instantiation_level>
+      </instantiation_levels>
+      <scaling_aspects>
+        <scaling_aspect>
+          <id>SA_UP</id>
+          <name>Scaling_Aspect_UP</name>
+          <associated_group>EG_UP</associated_group>
+          <max_scale_level>1</max_scale_level>
+        </scaling_aspect>
+      </scaling_aspects>
+      <supported_operations>
+        <supported_operation>instantiation</supported_operation>
+        <supported_operation>termination</supported_operation>
+        <supported_operation>clear</supported_operation>
+        <supported_operation>scale</supported_operation>
+        <supported_operation>edit_policy</supported_operation>
+      </supported_operations>
+    </flavor>
+  </flavors>
+  <autoscaling_policies/>
+  <config_params>
+    <config_param>
+      <param_id>virtual_ips</param_id>
+      <value>[{ "vnfc_id": "EM_A", "unit_number": "0", "virtual_ip": "128.1.131.100", "network_interface_id": "vl_core_orch" },
+{ "vnfc_id": "EM_C", "unit_number": "0", "virtual_ip": "128.1.131.100", "network_interface_id": "vl_core_orch" }]</value>
+      <type>String</type>
+      <description>virtual_ips</description>
+    </config_param>
+    <config_param>
+      <param_id>vnf_credential</param_id>
+      <value>Basic ZW0tdXNlcjphcnRsVUA0NjI=</value>
+      <type>String</type>
+      <description>encodeBasic64</description>
+    </config_param>
+  </config_params>
+  <lifecycle_notifications>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.start</name>
+      <status>running</status>
+      <display_name>VNF INSTANTIATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.start</name>
+      <status>running</status>
+      <display_name>VNF SCALE IN START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.start</name>
+      <status>running</status>
+      <display_name>VNF SCALE OUT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.start</name>
+      <status>running</status>
+      <display_name>VNF TERMINATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.reboot.start</name>
+      <status>running</status>
+      <display_name>VNF REBOOT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.start</name>
+      <status>running</status>
+      <display_name>VNF FULL MANUAL INC DEC START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.migrate.start</name>
+      <status>running</status>
+      <display_name>VNF MIGRATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.clean.start</name>
+      <status>running</status>
+      <display_name>VNF CLEAN START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.evacuate.start</name>
+      <status>running</status>
+      <display_name>VNF EVACUATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in_recover.start</name>
+      <status>running</status>
+      <display_name>VNF SCALE IN RECOVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out_recover.start</name>
+      <status>running</status>
+      <display_name>VNF SCALE OUT RECOVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.upgrade.start</name>
+      <status>running</status>
+      <display_name>VNF UPGRADE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.error</name>
+      <status>exception</status>
+      <display_name>VNF INSTANTIATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.error</name>
+      <status>exception</status>
+      <display_name>VNF SCALE IN ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.error</name>
+      <status>exception</status>
+      <display_name>VNF SCALE OUT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.error</name>
+      <status>exception</status>
+      <display_name>VNF TERMINATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.reboot.error</name>
+      <status>exception</status>
+      <display_name>VNF REBOOT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.error</name>
+      <status>exception</status>
+      <display_name>VNF FULL MANUAL INC DEC ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.inservice.connection.error</name>
+      <status>exception</status>
+      <display_name>VNF CONNECTION ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.migrate.error</name>
+      <status>exception</status>
+      <display_name>VNF MIGRATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.clean.error</name>
+      <status>exception</status>
+      <display_name>VNF CLEAN ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.evacuate.error</name>
+      <status>exception</status>
+      <display_name>VNF EVACUATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in_recover.error</name>
+      <status>exception</status>
+      <display_name>VNF SCALE IN RECOVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out_recover.error</name>
+      <status>exception</status>
+      <display_name>VNF SCALE OUT RECOVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.upgrade.error</name>
+      <status>exception</status>
+      <display_name>VNF UPGRADE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.end</name>
+      <status>completed</status>
+      <display_name>VNF INSTANTIATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.end</name>
+      <status>completed</status>
+      <display_name>VNF SCALE IN END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.end</name>
+      <status>completed</status>
+      <display_name>VNF SCALE OUT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.end</name>
+      <status>completed</status>
+      <display_name>VNF TERMINATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>delete_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.reboot.end</name>
+      <status>completed</status>
+      <display_name>VNF REBOOT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.end</name>
+      <status>completed</status>
+      <display_name>VNF FULL MANUAL INC DEC END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.inservice.in.service.end</name>
+      <status>completed</status>
+      <display_name>VNF IN SERVICE</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.migrate.end</name>
+      <status>completed</status>
+      <display_name>VNF MIGRATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.clean.end</name>
+      <status>completed</status>
+      <display_name>VNF CLEAN END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>delete_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.evacuate.end</name>
+      <status>completed</status>
+      <display_name>VNF EVACUATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+        <action>
+          <name>update_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in_recover.end</name>
+      <status>completed</status>
+      <display_name>VNF SCALE IN RECOVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out_recover.end</name>
+      <status>completed</status>
+      <display_name>VNF SCALE OUT RECOVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.sw_version_change</name>
+      <status>completed</status>
+      <display_name>VNF SW VERSION CHANGE</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.upgrade.end</name>
+      <status>completed</status>
+      <display_name>VNF UPGRADE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnf</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.createserver.start</name>
+      <status>running</status>
+      <display_name>VNFC CREATE SERVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.sending_swpackage.start</name>
+      <status>running</status>
+      <display_name>VNFC SW PACKAGE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.vnf_commands.start</name>
+      <status>running</status>
+      <display_name>VNFC SCALE IN START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.delete_server.start</name>
+      <status>running</status>
+      <display_name>VNFC SCALE IN DELETE SERVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.create_server.start</name>
+      <status>running</status>
+      <display_name>VNFC SCALE OUT CREATE SERVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.vnf_commands.start</name>
+      <status>running</status>
+      <display_name>VNFC SCALE OUT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.vnfc.delete_server.start</name>
+      <status>running</status>
+      <display_name>VNFC TERMINATE DELETE SERVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.reboot.vnfc.node_sw_initializing.start</name>
+      <status>running</status>
+      <display_name>VNFC REBOOT SW INIT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.node_sw_initializing.start</name>
+      <status>running</status>
+      <display_name>VNFC SW INIT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.node_sw_initializing.end</name>
+      <status>completed</status>
+      <display_name>VNFC SW INIT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.scale_out.vnfc.vnf_command.start</name>
+      <status>running</status>
+      <display_name>VNFC FULL MANUAL INC DEC SCALE OUT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.scale_in.vnfc.vnf_command.start</name>
+      <status>running</status>
+      <display_name>VNFC FULL MANUAL INC DEC SCALE IN START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.vnfc.delete_server.start</name>
+      <status>running</status>
+      <display_name>VNFC FULL MANUAL INC DEC DELETE SERVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.vnfc.create_server.start</name>
+      <status>running</status>
+      <display_name>VNFC FULL MANUAL INC DEC CREATE SERVER START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF INSTANTIATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF SCALE IN START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF SCALE OUT START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF TERMINATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.migrate.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF MIGRATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.evacuate.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF EVACUATE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.upgrade.vnfc.start</name>
+      <status>running</status>
+      <display_name>VNFC VNF UPGRADE START</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.createserver.error</name>
+      <status>exception</status>
+      <display_name>VNFC CREATE SERVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.sending_swpackage.error</name>
+      <status>exception</status>
+      <display_name>VNFC SW PACKAGE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.node_sw_initializing.error</name>
+      <status>exception</status>
+      <display_name>VNFC INSTANTIAT SW INIT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.vnf_commands.error</name>
+      <status>exception</status>
+      <display_name>VNFC SCALE IN ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.delete_server.error</name>
+      <status>exception</status>
+      <display_name>VNFC SCALE IN DELETE SERVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.vnf_commands.error</name>
+      <status>exception</status>
+      <display_name>VNFC SCALE OUT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.create_server.error</name>
+      <status>exception</status>
+      <display_name>VNFC SCALE OUT CREATE SERVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.vnfc.delete_server.error</name>
+      <status>exception</status>
+      <display_name>VNFC TERMINATE DELETE SERVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.reboot.vnfc.node_sw_initializing.error</name>
+      <status>exception</status>
+      <display_name>VNFC REBOOT SW INIT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.scale_out.vnfc.vnf_command.error</name>
+      <status>exception</status>
+      <display_name>VNFC FULL MANUAL INC DEC SCALE OUT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.scale_in.vnfc.vnf_command.error</name>
+      <status>exception</status>
+      <display_name>VNFC FULL MANUAL INC DEC SCALE IN ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.vnfc.delete_server.error</name>
+      <status>exception</status>
+      <display_name>VNFC FULL MANUAL INC DEC DELETE SERVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.vnfc.create_server.error</name>
+      <status>exception</status>
+      <display_name>VNFC FULL MANUAL INC DEC CREATE SERVER ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF INSTANTIATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF SCALE IN ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF SCALE OUT ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF TERMINATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.migrate.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF MIGRATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.evacuate.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF EVACUATE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.upgrade.vnfc.error</name>
+      <status>exception</status>
+      <display_name>VNFC VNF UPGRADE ERROR</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.createserver.end</name>
+      <status>completed</status>
+      <display_name>VNFC CREATE SERVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.sending_swpackage.end</name>
+      <status>completed</status>
+      <display_name>VNFC SW PACKAGE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.vnf_commands.end</name>
+      <status>completed</status>
+      <display_name>VNFC SCALE IN END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.delete_server.end</name>
+      <status>completed</status>
+      <display_name>VNFC SCALE IN DELETE SERVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.vnf_commands.end</name>
+      <status>completed</status>
+      <display_name>VNFC SCALE OUT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>update_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.create_server.end</name>
+      <status>completed</status>
+      <display_name>VNFC SCALE OUT CREATE SERVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.vnfc.delete_server.end</name>
+      <status>completed</status>
+      <display_name>VNFC TERMINATE DELETE SERVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>delete_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.reboot.vnfc.node_sw_initializing.end</name>
+      <status>completed</status>
+      <display_name>VNFC REBOOT SW INIT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.scale_out.vnfc.vnf_command.end</name>
+      <status>completed</status>
+      <display_name>VNFC FULL MANUAL INC DEC SCALE OUT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>update_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.scale_in.vnfc.vnf_command.end</name>
+      <status>completed</status>
+      <display_name>VNFC FULL MANUAL INC DEC SCALE IN END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>delete_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.vnfc.delete_server.end</name>
+      <status>completed</status>
+      <display_name>VNFC FULL MANUAL INC DEC DELETE SERVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.full_manual_inc_dec.vnfc.create_server.end</name>
+      <status>completed</status>
+      <display_name>VNFC FULL MANUAL INC DEC CREATE SERVER END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.inservice.vnfc.statuschanged.end</name>
+      <status>completed</status>
+      <display_name>VNFC STATUS CHANGED END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>update_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.inservice.vnfc.activechanged.end</name>
+      <status>completed</status>
+      <display_name>VNFC_ACTIVE_CHANGED_END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>update_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.instantiate.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF INSTANTIATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_in.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF SCALE IN END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+        <action>
+          <name>delete_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.scale_out.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF SCALE OUT END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.terminate.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF TERMINATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.migrate.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF MIGRATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.evacuate.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF EVACUATE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+    <lifecycle_notification>
+      <name>vnf.instance.upgrade.vnfc.end</name>
+      <status>completed</status>
+      <display_name>VNFC VNF UPGRADE END</display_name>
+      <description></description>
+      <actions>
+        <action>
+          <name>send_vnfc</name>
+        </action>
+      </actions>
+    </lifecycle_notification>
+  </lifecycle_notifications>
+  <fault_notifications>
+    <fault_notification>
+      <name>VNF CONNECTION ALARM</name>
+      <display_name>VNFM-VNF Connection Down</display_name>
+      <description></description>
+      <node_type>VNFM_VNF</node_type>
+      <actions>
+        <action>
+          <name>send_alarm</name>
+        </action>
+      </actions>
+    </fault_notification>
+  </fault_notifications>
+  <element_groups>
+    <element_group>
+      <vnfd_element_group_id>EG_UP</vnfd_element_group_id>
+      <description>Element group for UP</description>
+      <vdus>
+        <vdu>UUID-VDU-EM_A</vdu>
+        <vdu>UUID-VDU-EM_C</vdu>
+        <vdu>UUID-VDU-UPF_A</vdu>
+        <vdu>UUID-VDU-UPF_C</vdu>
+      </vdus>
+    </element_group>
+  </element_groups>
+</vnfd>
